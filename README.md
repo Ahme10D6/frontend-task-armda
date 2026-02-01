@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend Task
 
-## Getting Started
+A small product catalog app built with Next.js. You get a homepage with a grid of products and a detail page for each one. Data comes from the [Fake Store API](https://fakestoreapi.com/), so no backend needed.
 
-First, run the development server:
+Tech used: Next.js 16, React 19, TypeScript, Tailwind CSS, and a bit of MUI and Lucide for icons. Errors show up as toast messages so the app feels responsive when something goes wrong.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You’ll need Node.js on your machine (v18 or newer is fine).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Clone the repo** (or download it).
 
-## Learn More
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Run the dev server**
+   ```bash
+   npm run dev
+   ```
+   Then open [http://localhost:3000](http://localhost:3000). You should see the product list.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Other useful commands:
+- `npm run build` — production build
+- `npm run start` — run the production build locally
+- `npm run lint` — run ESLint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Everything lives under `src/`. Here’s what’s where:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**`src/app/`** — Next.js App Router (routes and layouts)
+
+- `layout.tsx` — Root layout: navbar, main content, footer, and the toast container.
+- `page.tsx` — Homepage: breadcrumbs + product grid.
+- `loading.tsx` — Global loading UI (skeleton).
+- `not-found.tsx` — 404 page.
+- `product/[id]/` — Dynamic product detail route.
+  - `page.tsx` — Renders the product detail view and passes the `id` from the URL.
+  - `loading.tsx` — Loading state for the product page.
+
+**`src/components/`** — All React components
+
+- **`layout/`** — Shell of the app: `navbar.tsx`, `footer.tsx`.
+- **`shared/`** — Reusable bits: `breadcrumbs`, `button`, `error` (toast helpers + Toaster), `loader`, `skeletonLoader`.
+- **`ui/products/`** — Product list: `productGrid.tsx` (fetches and lists products), `productCard.tsx` (single card with image, title, price, favorite heart).
+- **`ui/productDetails/`** — Product page: `productDetailView.tsx` (fetches one product, handles loading/error), `prouductContainer.tsx` (layout and content for the detail view).
+
+**`src/lib/`**
+
+- `api.ts` — Calls to Fake Store API: `getProducts()` and `getProduct(id)` using Axios.
+
+**`src/types/`**
+
+- `product.ts` — TypeScript type for a product (id, title, price, image, etc.).
+
+**`src/styles/`**
+
+- `globals.css` — Global styles and Tailwind.
+
+**`public/`** (at project root)
+
+- `icons/` — SVG icons used in the footer (e.g. social links).
+
+That’s pretty much it. Routes are in `app/`, UI and layout in `components/`, and data fetching in `lib/api.ts`. If you add new pages, follow the same pattern: route in `app/`, components in `components/`, and reuse the shared error toasts when something fails.
