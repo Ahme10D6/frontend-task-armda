@@ -12,8 +12,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Frontend Task",
-  description: "Frontend Task",
+  title: "Cyber",
+  description: "Frontend Task for Armada",
+  icons: {
+    icon: "/logo/logo-white.svg",
+  },
 };
 
 export default function RootLayout({
